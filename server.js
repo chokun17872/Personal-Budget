@@ -40,6 +40,16 @@ const getIndexById = id => {
     return index;
 }
 
+const addEnvelope = (envelope,fund) => {          
+    const newEnvelope = {
+        id: envelopes[envelopes.length-1].id + 1,
+        name: envelope,
+        fund: fund
+    };
+    envelopes.push(newEnvelope);
+    return newEnvelope;
+}
+
 app.get('/',(req,res,next) => {                   
     res.send(envelopes);
 })
