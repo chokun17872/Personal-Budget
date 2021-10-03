@@ -7,33 +7,7 @@ app.use('/envelopes', envelopesRouter)
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();       // parser middleware
 
-const envelopes = [
-    {
-        id: 1,
-        name: 'food',
-        fund : 3500
-    },
-    {
-        id: 2,
-        name: 'education',
-        fund: 2500
-    },
-    {
-        id: 3,
-        name: 'transportation',
-        fund : 1500
-    },
-    {
-        id: 4,
-        name: 'videoGames',
-        fund : 1500
-    },
-    {
-        id: 5,
-        name: 'utilities',
-        fund: 1000
-    }
-];
+const envelopes = require('./db');
 
 const getIndexByName = envelope => {                
     const index = envelopes.findIndex((ele) => ele.name === envelope);
