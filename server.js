@@ -54,8 +54,14 @@ app.get('/',(req,res,next) => {
     res.send(envelopes);
 })
 
-app.get('/envelope/:envelope',(req,res,next) => {   // passed
+app.get('/envelope/:envelope',(req,res,next) => {   
     const index = getIndexByName(req.params.envelope);
+    const getEnvelope = envelopes[index];
+    res.send(getEnvelope);
+})
+
+app.get('/id/:id',(req,res,next) => {               
+    const index = getIndexById(Number(req.params.id));
     const getEnvelope = envelopes[index];
     res.send(getEnvelope);
 })
