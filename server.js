@@ -42,18 +42,11 @@ const updateEnvelope = instance => {
     else return null;
 }
 
-const deleteEnvelope = id => {
-    const index = getIndexById(id);
-    if(index !== -1){
-        return envelopes[index];
-    }
-    else return null;
-}
-/*const deleteEnvelopeById = id => {
+const deleteEnvelopeById = id => {
     const index = getIndexById(id);
     if(index !== -1){
         envelopes.splice(index,1);
-        return envelopes[index];
+        return true;
     }
     else return null;
 }
@@ -62,10 +55,10 @@ const deleteEnvelopeByName = name => {
     const index = getIndexByName(name);
     if(index !== -1){
         envelopes.splice(index,1);
-        return envelopes[index];
+        return true;
     }
     else return null;
-}*/
+}
 
 // router
 
@@ -107,10 +100,10 @@ envelopesRouter.put('/', jsonParser, (req,res,next) => {
     else res.status(404).send(`Envelope's name does not exist`);
 })
 
-/*envelopesRouter.delete('/id/:id', (req,res,next) => {
+envelopesRouter.delete('/id/:id', (req,res,next) => {
     const deletedEnvelope = deleteEnvelopeById(req.params.id);
     if(deletedEnvelope){
-        res.status(204).send(deletedEnvelope);
+        res.status(204).send();
     }
     else res.status(404).send(`Envelope's id does not exist`);
 })
@@ -118,10 +111,10 @@ envelopesRouter.put('/', jsonParser, (req,res,next) => {
 envelopesRouter.delete('/name/:name', (req,res,next) => {
     const deletedEnvelope = deleteEnvelopeByName(req.params.name);
     if(deletedEnvelope){
-        res.status(204).send(deletedEnvelope);
+        res.status(204).send();
     }
     else res.status(404).send(`Envelope's name does not exist`);   
-})*/
+})
 
 const PORT = 3000;
 app.listen(PORT, () => {
