@@ -60,6 +60,20 @@ const deleteEnvelopeByName = name => {
     else return null;
 }
 
+const transferEnvelope = (from,to,amount) => {
+    const fromIndex = getIndexByName(from);
+    const toIndex = getIndexByName(to);
+    if(envelopes[fromIndex].fund - amount >= 0){
+        envelopes[fromIndex].fund -= amount;
+        envelopes[toIndex].fund += amount;
+        return {
+            from: envelopes[fromIndex],
+            to: envelopes[toIndex]
+        }
+    }
+    else return null;
+}
+
 // router
 
 envelopesRouter.get('/', (req,res,next) => {                   
@@ -90,6 +104,14 @@ envelopesRouter.post('/', jsonParser, (req,res,next) => {
         res.status(201).send(newEnvelope); 
     }
     else res.status(400).send('Invalid envelope');
+})
+
+envelopesRouter.post('/transfer/:from/:to/:amount', (req,res,next) => {
+    const transferedEnvelope = transferEnvelope(req.params.from, req.params.to, Number(req.params.amount));
+    if(transferedEnvelope){
+        res.status(201).send(transferedEnvelope);
+    }
+    else res.status(404).send('Insufficient amount');
 })
 
 envelopesRouter.put('/', jsonParser, (req,res,next) => {
