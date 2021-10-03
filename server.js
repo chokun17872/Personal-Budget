@@ -54,6 +54,12 @@ app.get('/',(req,res,next) => {
     res.send(envelopes);
 })
 
+app.get('/envelope/:envelope',(req,res,next) => {   // passed
+    const index = getIndexByName(req.params.envelope);
+    const getEnvelope = envelopes[index];
+    res.send(getEnvelope);
+})
+
 app.listen(PORT, () => {
     console.log(`Server is listening on PORT:${PORT}`);
 })
