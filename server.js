@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json(); // parser middleware
 const PORT = 3000;
-const budget = 10000;
 const envelopes = [
     {
         id: 1,
