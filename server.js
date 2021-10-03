@@ -30,6 +30,11 @@ const envelopes = [
     }
 ];
 
+const getIndexByName = envelope => {                
+    const index = envelopes.findIndex((ele) => ele.name === envelope);
+    return index;
+}
+
 app.get('/',(req,res,next) => {                   
     res.send(envelopes);
 })
