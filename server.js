@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json(); // parser middleware
 const PORT = 3000;
 const budget = 10000;
 const envelopes = [
@@ -40,30 +42,32 @@ const getIndexById = id => {
     return index;
 }
 
-const addEnvelope = (envelope,fund) => {          
-    const newEnvelope = {
-        id: envelopes[envelopes.length-1].id + 1,
-        name: envelope,
-        fund: fund
-    };
+const addEnvelope = instance => {
+    const newEnvelope = {id: envelopes[envelopes.length-1].id + 1};
+    Object.assign(newEnvelope, instance);
     envelopes.push(newEnvelope);
     return newEnvelope;
 }
 
-app.get('/',(req,res,next) => {                   
+app.get('/', (req,res,next) => {                   
     res.send(envelopes);
 })
 
-app.get('/envelope/:envelope',(req,res,next) => {   
+app.get('/envelope/:envelope', (req,res,next) => {   
     const index = getIndexByName(req.params.envelope);
     const getEnvelope = envelopes[index];
     res.send(getEnvelope);
 })
 
-app.get('/id/:id',(req,res,next) => {               
+app.get('/id/:id', (req,res,next) => {               
     const index = getIndexById(Number(req.params.id));
     const getEnvelope = envelopes[index];
     res.send(getEnvelope);
+})
+
+app.post('/envelope', jsonParser, (req,res,next) => {
+    const newEnvelope = addEnvelope(req.body);
+    res.status(201).send(newEnvelope);
 })
 
 app.listen(PORT, () => {
