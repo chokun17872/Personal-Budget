@@ -11,19 +11,24 @@ const envelopes = require('./db');
 
 const getIndexByName = envelope => {                
     const index = envelopes.findIndex((ele) => ele.name === envelope);
-    return index;
+    if(index !== -1) return index;
+    else return null;
 }
 
 const getIndexById = id => {                        
     const index = envelopes.findIndex((ele) => ele.id === id);
-    return index;
+    if(index !== -1) return index;
+    else return null;
 }
 
 const addEnvelope = instance => {
     const newEnvelope = {id: envelopes[envelopes.length-1].id + 1};
-    Object.assign(newEnvelope, instance);
-    envelopes.push(newEnvelope);
-    return newEnvelope;
+    if(instance.name && instance.fund){
+       Object.assign(newEnvelope, instance);
+        envelopes.push(newEnvelope);
+        return newEnvelope; 
+    }
+    else return null;    
 }
 
 envelopesRouter.get('/', (req,res,next) => {                   
@@ -32,19 +37,28 @@ envelopesRouter.get('/', (req,res,next) => {
 
 envelopesRouter.get('/name/:name', (req,res,next) => {   
     const index = getIndexByName(req.params.name);
-    const getEnvelope = envelopes[index];
-    res.send(getEnvelope);
+    if(index){
+        const getEnvelope = envelopes[index];
+        res.send(getEnvelope);
+    }
+    else res.status(404).send(`Envelope's name does not exist`);
 })
 
 envelopesRouter.get('/id/:id', (req,res,next) => {               
     const index = getIndexById(Number(req.params.id));
-    const getEnvelope = envelopes[index];
-    res.send(getEnvelope);
+    if(index){
+        const getEnvelope = envelopes[index];
+        res.send(getEnvelope);
+    }
+    else res.status(404).send(`Envelope's id does not exist`);
 })
 
 envelopesRouter.post('/', jsonParser, (req,res,next) => {
     const newEnvelope = addEnvelope(req.body);
-    res.status(201).send(newEnvelope);
+    if(newEnvelope){
+        res.status(201).send(newEnvelope); 
+    }
+    else res.status(400).send('Invalid envelope');
 })
 
 const PORT = 3000;
