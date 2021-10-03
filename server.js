@@ -26,7 +26,7 @@ const getIndexById = id => {
 const addEnvelope = instance => {
     const newEnvelope = {id: envelopes[envelopes.length-1].id + 1};
     if(instance.name && instance.fund){
-       Object.assign(newEnvelope, instance);
+        Object.assign(newEnvelope, instance);
         envelopes.push(newEnvelope);
         return newEnvelope; 
     }
@@ -42,6 +42,31 @@ const updateEnvelope = instance => {
     else return null;
 }
 
+const deleteEnvelope = id => {
+    const index = getIndexById(id);
+    if(index !== -1){
+        return envelopes[index];
+    }
+    else return null;
+}
+/*const deleteEnvelopeById = id => {
+    const index = getIndexById(id);
+    if(index !== -1){
+        envelopes.splice(index,1);
+        return envelopes[index];
+    }
+    else return null;
+}
+
+const deleteEnvelopeByName = name => {
+    const index = getIndexByName(name);
+    if(index !== -1){
+        envelopes.splice(index,1);
+        return envelopes[index];
+    }
+    else return null;
+}*/
+
 // router
 
 envelopesRouter.get('/', (req,res,next) => {                   
@@ -50,7 +75,7 @@ envelopesRouter.get('/', (req,res,next) => {
 
 envelopesRouter.get('/name/:name', (req,res,next) => {   
     const index = getIndexByName(req.params.name);
-    if(index !== -1){
+    if(index){
         const getEnvelope = envelopes[index];
         res.send(getEnvelope);
     }
@@ -59,7 +84,7 @@ envelopesRouter.get('/name/:name', (req,res,next) => {
 
 envelopesRouter.get('/id/:id', (req,res,next) => {               
     const index = getIndexById(Number(req.params.id));
-    if(index !== -1){
+    if(index){
         const getEnvelope = envelopes[index];
         res.send(getEnvelope);
     }
@@ -81,6 +106,23 @@ envelopesRouter.put('/', jsonParser, (req,res,next) => {
     }
     else res.status(404).send(`Envelope's name does not exist`);
 })
+
+/*envelopesRouter.delete('/id/:id', (req,res,next) => {
+    const deletedEnvelope = deleteEnvelopeById(req.params.id);
+    if(deletedEnvelope){
+        res.status(204).send(deletedEnvelope);
+    }
+    else res.status(404).send(`Envelope's id does not exist`);
+})
+
+envelopesRouter.delete('/name/:name', (req,res,next) => {
+    const deletedEnvelope = deleteEnvelopeByName(req.params.name);
+    if(deletedEnvelope){
+        res.status(204).send(deletedEnvelope);
+    }
+    else res.status(404).send(`Envelope's name does not exist`);   
+})*/
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is listening on PORT:${PORT}`);
