@@ -35,6 +35,11 @@ const getIndexByName = envelope => {
     return index;
 }
 
+const getIndexById = id => {                        
+    const index = envelopes.findIndex((ele) => ele.id === id);
+    return index;
+}
+
 app.get('/',(req,res,next) => {                   
     res.send(envelopes);
 })
