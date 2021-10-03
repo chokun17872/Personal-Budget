@@ -56,8 +56,8 @@ envelopesRouter.get('/', (req,res,next) => {
     res.send(envelopes);
 })
 
-envelopesRouter.get('/envelope/:envelope', (req,res,next) => {   
-    const index = getIndexByName(req.params.envelope);
+envelopesRouter.get('/name/:name', (req,res,next) => {   
+    const index = getIndexByName(req.params.name);
     const getEnvelope = envelopes[index];
     res.send(getEnvelope);
 })
@@ -68,7 +68,7 @@ envelopesRouter.get('/id/:id', (req,res,next) => {
     res.send(getEnvelope);
 })
 
-envelopesRouter.post('/envelope', jsonParser, (req,res,next) => {
+envelopesRouter.post('/', jsonParser, (req,res,next) => {
     const newEnvelope = addEnvelope(req.body);
     res.status(201).send(newEnvelope);
 })
